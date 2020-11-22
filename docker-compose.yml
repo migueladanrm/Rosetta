@@ -1,5 +1,18 @@
 version: "3.8"
 services:
+  server:
+    container_name: "${PROJECT_NAME}-server"
+    image: "rosetta/server"
+    restart: on-failure
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    environment:
+      SERVER_PORT: ${SERVER_PORT}
+    ports:
+      - "${SERVER_PORT}:${SERVER_PORT}"
+    networks:
+      - rosetta
   pyxel:
     container_name: "${PROJECT_NAME}-pyxel"
     image: "rosetta/pyxel"
@@ -7,6 +20,8 @@ services:
     build:
       context: ./pyxel
       dockerfile: Dockerfile
+    depends_on: 
+      - server
   webapp:
     container_name: "${PROJECT_NAME}-web"
     image: "rosetta/web"
@@ -14,10 +29,12 @@ services:
     build:
       context: ./webapp
       dockerfile: Dockerfile
+    depends_on: 
+      - server
     ports:
       - "${WEBAPP_PORT}:80"
     networks:
-      - default
+      - rosetta
 networks:
-  default:
+  rosetta:
     driver: bridge
