@@ -1,5 +1,17 @@
 version: "3.8"
 services:
+  rabbitmq:
+    container_name: "${PROJECT_NAME}-rabbitmq"
+    image: "rabbitmq:3.8.9-management-alpine"
+    restart: on-failure
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
+    ports:
+      - "${RABBITMQ_PORT}:5672"
+      - "${RABBITMQ_MANAGEMENT_PORT}:15672"
+    networks:
+      - rosetta
   server:
     container_name: "${PROJECT_NAME}-server"
     image: "rosetta/server"
@@ -7,6 +19,8 @@ services:
     build:
       context: ./server
       dockerfile: Dockerfile
+    depends_on:
+      - rabbitmq
     environment:
       SERVER_PORT: ${SERVER_PORT}
     ports:
@@ -20,7 +34,8 @@ services:
     build:
       context: ./pyxel
       dockerfile: Dockerfile
-    depends_on: 
+    depends_on:
+      - rabbitmq
       - server
   webapp:
     container_name: "${PROJECT_NAME}-web"
@@ -29,7 +44,7 @@ services:
     build:
       context: ./webapp
       dockerfile: Dockerfile
-    depends_on: 
+    depends_on:
       - server
     ports:
       - "${WEBAPP_PORT}:80"
