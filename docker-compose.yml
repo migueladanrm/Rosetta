@@ -23,6 +23,7 @@ services:
       - rabbitmq
     environment:
       SERVER_PORT: ${SERVER_PORT}
+      SERVER_RABBITMQ_URL: ${SERVER_RABBITMQ_URL}
     ports:
       - "${SERVER_PORT}:${SERVER_PORT}"
     networks:
@@ -37,6 +38,11 @@ services:
     depends_on:
       - rabbitmq
       - server
+    environment:
+      PYXEL_RABBITMQ_HOST: ${PYXEL_RABBITMQ_HOST}
+      PYXEL_RABBITMQ_PORT: ${PYXEL_RABBITMQ_PORT}
+      PYXEL_RABBITMQ_USER: ${PYXEL_RABBITMQ_USER}
+      PYXEL_RABBITMQ_PASS: ${PYXEL_RABBITMQ_PASS}
   webapp:
     container_name: "${PROJECT_NAME}-web"
     image: "rosetta/web"
