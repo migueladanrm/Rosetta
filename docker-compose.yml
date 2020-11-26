@@ -33,7 +33,7 @@ services:
     image: "rosetta/orchestrator"
     restart: on-failure
     build:
-      context: ./scraper
+      context: ./orchestrator
       dockerfile: Dockerfile
     depends_on:
       - rabbitmq
