@@ -1,5 +1,18 @@
 version: "3.8"
 services:
+  mongo:
+    container_name: "${PROJECT_NAME}-mongo"
+    image: mongo:4.0.20-xenial
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
+    ports:
+      - "${MONGO_PORT}:27017"
+    volumes:
+      - mongo_data:/data/db
+    networks: 
+      - default
   rabbitmq:
     container_name: "${PROJECT_NAME}-rabbitmq"
     image: "rabbitmq:3.8.9-management-alpine"
@@ -36,9 +49,21 @@ services:
       context: ./orchestrator
       dockerfile: Dockerfile
     depends_on:
+      - mongo
+      - postgres
       - rabbitmq
     networks:
       - default
+  postgres:
+    container_name: "${PROJECT_NAME}-postgres"
+    image: postgres:12-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "${POSTGRES_PORT}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
   pyxel:
     container_name: "${PROJECT_NAME}-pyxel"
     image: "rosetta/pyxel"
@@ -47,6 +72,8 @@ services:
       context: ./pyxel
       dockerfile: Dockerfile
     depends_on:
+      - mongo
+      - postgres
       - rabbitmq
       - server
     environment:
@@ -70,3 +97,6 @@ services:
 networks:
   default:
     driver: bridge
+volumes: 
+  mongo_data:
+  postgres_data:
