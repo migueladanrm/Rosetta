@@ -3,6 +3,9 @@ import bodyParser from "body-parser";
 import morgan from "morgan";
 import * as http from "http";
 import { TestsRoute } from "./routes/tests.route";
+import { StorageService } from "./services/storage.service";
+import { QueueRoute } from "./routes/queue.route";
+import { StorageDao } from "./data-sources/mongo/storage.dao";
 
 export class Server {
   private app: Application;
@@ -34,7 +37,8 @@ export class Server {
       .get("/", (req: Request, res: Response) => {
         res.send("<h1>Hello, world!</h1>");
       })
-      .use("/tests", TestsRoute());
+      .use("/tests", TestsRoute())
+      .use("/queue", QueueRoute(new StorageService(new StorageDao())));
   }
 
   private setupServer(): void {
