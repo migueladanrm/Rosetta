@@ -1,7 +1,7 @@
 import { Request, Response, Router } from "express";
 import { StorageService } from "../services/storage.service";
 
-export function QueueRoute(storage: StorageService): Router {
+export function OperationsRoute(storage: StorageService): Router {
   return Router().post(
     "/create",
     storage.getUploader().array("images", 10),
