@@ -8,14 +8,14 @@ export class StorageDao implements StorageRepository {
     const fs = await getMongoStorage();
     const output: any = [];
 
-    files.forEach(async (f) => {
+    for (const f of files) {
       const readable = new Readable();
       readable._read = () => {};
       readable.push(f.buffer);
       readable.push(null);
 
-      const obj = await fs.writeFileStream(readable, {
-        filename: f.filename,
+      const obj = await fs.writeFileStream(f.stream, {
+        filename: f.originalname,
         contentType: f.mimetype,
       });
 
@@ -24,7 +24,7 @@ export class StorageDao implements StorageRepository {
         filename: obj.filename,
         length: obj.length,
       });
-    });
+    }
 
     return output;
   }
