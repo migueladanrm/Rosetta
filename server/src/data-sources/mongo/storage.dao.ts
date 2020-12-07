@@ -14,7 +14,7 @@ export class StorageDao implements StorageRepository {
       readable.push(f.buffer);
       readable.push(null);
 
-      const obj = await fs.writeFileStream(f.stream, {
+      const obj = await fs.writeFileStream(readable, {
         filename: f.originalname,
         contentType: f.mimetype,
       });

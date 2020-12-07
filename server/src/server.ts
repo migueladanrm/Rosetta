@@ -6,6 +6,8 @@ import { TestsRoute } from "./routes/tests.route";
 import { StorageService } from "./services/storage.service";
 import { OperationsRoute } from "./routes/operations.route";
 import { StorageDao } from "./data-sources/mongo/storage.dao";
+import { OperationsService } from "./services/operations.service";
+import { OperationsDao } from "./data-sources/pg/operations.dao";
 
 export class Server {
   private app: Application;
@@ -38,7 +40,13 @@ export class Server {
         res.send("<h1>Hello, world!</h1>");
       })
       .use("/tests", TestsRoute())
-      .use("/operations", OperationsRoute(new StorageService(new StorageDao())));
+      .use(
+        "/operations",
+        OperationsRoute(
+          new OperationsService(new OperationsDao()),
+          new StorageService(new StorageDao())
+        )
+      );
   }
 
   private setupServer(): void {
