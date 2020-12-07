@@ -1,12 +1,12 @@
 import { Readable } from "stream";
-import { StorageFile } from "../../models/storage-file.model";
+import { OperationItem } from "../../models/operation-item.model";
 import { StorageRepository } from "../../repositories/storage.repository";
 import { getMongoStorage } from "./mongo-connection-manager";
 
 export class StorageDao implements StorageRepository {
-  async addFiles(files: Express.Multer.File[]): Promise<StorageFile[]> {
+  async addFiles(files: Express.Multer.File[]): Promise<OperationItem[]> {
     const fs = await getMongoStorage();
-    const output: StorageFile[] = [];
+    const output: OperationItem[] = [];
 
     for (const f of files) {
       const readable = new Readable();
@@ -24,7 +24,7 @@ export class StorageDao implements StorageRepository {
         filename: obj.filename,
         length: obj.length,
         contentType: obj.contentType,
-      } as StorageFile);
+      } as OperationItem);
     }
 
     return output;

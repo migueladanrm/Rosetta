@@ -1,4 +1,4 @@
-export interface StorageFile {
+export interface OperationItem {
   id: string;
   filename: string;
   length: number;

@@ -1,5 +1,5 @@
-import { StorageFile } from "../models/storage-file.model";
+import { OperationItem } from "../models/operation-item.model";
 
 export class OperationsService {
-  async createOperation(files: StorageFile[]) {}
+  async createOperation(files: OperationItem[]) {}
 }
