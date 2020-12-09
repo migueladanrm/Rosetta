@@ -1,5 +1,6 @@
-from pymongo import MongoClient
 from gridfs import GridFS
+from pymongo import MongoClient
+import psycopg2
 import os
 
 def get_storage_connection() -> GridFS:
@@ -8,4 +9,4 @@ def get_storage_connection() -> GridFS:
 
 
 def get_db_connection():
-    pass
+    return psycopg2.connect(os.environ["PYXEL_POSTGRES_URL"])
