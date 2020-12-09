@@ -6,5 +6,5 @@ export async function getMongoStorage() {
     process.env.SERVER_MONGO_STORAGE_URL,
     { useUnifiedTopology: true }
   );
-  return new MongoGridFS(mongo.db("rosetta"), "rosetta-storage");
+  return new MongoGridFS(mongo.db("rosetta"));
 }
