@@ -7,7 +7,7 @@ from PIL import Image
 
 def image_to_bytes(image: Image.Image) -> BytesIO:
     byte_array = BytesIO()
-    image.save(byte_array, format=image.format)
+    image.save(byte_array, format="JPEG")
     byte_array = byte_array.getvalue()
     return byte_array
 
