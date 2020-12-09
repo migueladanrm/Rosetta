@@ -1,31 +1,55 @@
-import pika
-import sys
+from dotenv import load_dotenv
+from pika import BlockingConnection, ConnectionParameters, PlainCredentials
+from telemetry import log
+import image_processor
+import json
 import os
+import sys
+
+load_dotenv(verbose=True)
+
+WORKER_ID = os.environ["PYXEL_WORKER_ID"]
+RABBITMQ_HOST = os.environ["PYXEL_RABBITMQ_HOST"]
+RABBITMQ_PORT = os.environ["PYXEL_RABBITMQ_PORT"]
+RABBITMQ_USER = os.environ["PYXEL_RABBITMQ_USER"]
+RABBITMQ_PASS = os.environ["PYXEL_RABBITMQ_PASS"]
 
 
 def main():
-    connection = pika.BlockingConnection(
-        pika.ConnectionParameters(host=os.environ["PYXEL_RABBITMQ_HOST"], port=os.environ["PYXEL_RABBITMQ_PORT"], credentials=pika.PlainCredentials(os.environ["PYXEL_RABBITMQ_USER"], os.environ["PYXEL_RABBITMQ_PASS"]), virtual_host="/"))
+    def on_message_receive_callback(channel, method, properties, body):
+        log("Mensaje recibido.")
+        message = json.loads(body)
+        operation = message["operation"]
+
+        image_processor.run(operation)
+
+        log("Todas las tareas asociadas a la operación '{}' han finalizado.".format(operation))
+
+    log("Inicializando conexión a RabbitMQ en '{}:{}'...".format(
+        RABBITMQ_HOST, RABBITMQ_PORT))
+
+    connection = BlockingConnection(
+        ConnectionParameters(host=RABBITMQ_HOST, port=RABBITMQ_PORT, credentials=PlainCredentials(RABBITMQ_USER, RABBITMQ_PASS), virtual_host="/"))
     channel = connection.channel()
-
-    channel.queue_declare(queue='pyxel-01', durable=True)
-
-    def callback(ch, method, properties, body):
-        print(" [x] Received %r" % body)
-
+    channel.queue_declare(queue=WORKER_ID, durable=True)
     channel.basic_consume(
-        queue='pyxel-01', on_message_callback=callback, auto_ack=True)
+        queue=WORKER_ID, on_message_callback=on_message_receive_callback, auto_ack=True)
 
-    print(' [*] Waiting for messages. To exit press CTRL+C')
+    log("Pyxel [{}] ha iniciado correctamente y está esperando peticiones. Presione [Ctrl]+C para salir...".format(WORKER_ID))
+
     channel.start_consuming()
 
 
-if __name__ == '__main__':
-    try:
-        main()
-    except KeyboardInterrupt:
-        print('Interrupted')
-        try:
-            sys.exit(0)
-        except SystemExit:
-            os._exit(0)
+log("Inicializando Pyxel. Nodo: {}".format(WORKER_ID))
+
+main()
+
+# if __name__ == '__main__':
+#     try:
+#         main()
+#     except KeyboardInterrupt:
+#         print('Interrupted')
+#         try:
+#             sys.exit(0)
+#         except SystemExit:
+#             os._exit(0)
