@@ -1,12 +1,9 @@
-from dotenv import load_dotenv
 from pika import BlockingConnection, ConnectionParameters, PlainCredentials
 from telemetry import log
 import image_processor
 import json
 import os
 import sys
-
-load_dotenv(verbose=True)
 
 WORKER_ID = os.environ["PYXEL_WORKER_ID"]
 RABBITMQ_HOST = os.environ["PYXEL_RABBITMQ_HOST"]

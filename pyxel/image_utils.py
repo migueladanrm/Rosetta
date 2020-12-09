@@ -1,8 +1,6 @@
 from io import BytesIO
-import cv2 as cv
-import gridfs
-import numpy as np
 from PIL import Image
+import gridfs
 
 
 def image_to_bytes(image: Image.Image) -> BytesIO:

@@ -1,7 +1,7 @@
 from bson.objectid import ObjectId
+from PIL import Image
 import database
 import gridfs
-from PIL import Image
 import image_utils
 
 
