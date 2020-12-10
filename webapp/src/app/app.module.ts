@@ -8,6 +8,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CreateOperationComponent } from './create-operation/create-operation.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatInputModule } from '@angular/material/input';
 
 @NgModule({
   declarations: [AppComponent, HomeComponent, CreateOperationComponent],
@@ -17,6 +18,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     BrowserAnimationsModule,
     MatButtonModule,
     MatCheckboxModule,
+    MatInputModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
