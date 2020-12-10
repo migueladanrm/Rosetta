@@ -8,6 +8,7 @@ import { OperationsRoute } from "./routes/operations.route";
 import { StorageDao } from "./data-sources/mongo/storage.dao";
 import { OperationsService } from "./services/operations.service";
 import { OperationsDao } from "./data-sources/pg/operations.dao";
+import { QueueDao } from "./data-sources/rabbitmq/queue.dao";
 
 export class Server {
   private app: Application;
@@ -43,7 +44,7 @@ export class Server {
       .use(
         "/operations",
         OperationsRoute(
-          new OperationsService(new OperationsDao()),
+          new OperationsService(new OperationsDao(), new QueueDao()),
           new StorageService(new StorageDao())
         )
       );
