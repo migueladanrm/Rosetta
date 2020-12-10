@@ -30,7 +30,7 @@ namespace Rosetta.Orchestrator
             return target;
         }
 
-        private static void LoadSettings() {
+        public static void LoadSettings() {
             if (File.Exists("env.json")) {
                 var settings = JObject.Parse(File.ReadAllText("env.json"));
 

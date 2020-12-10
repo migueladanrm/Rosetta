@@ -1,13 +1,24 @@
-﻿using System;
-using static Rosetta.Orchestrator.Telemetry.Logger;
-using RabbitMQ.Client;
+﻿using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
-using System.Text;
 using Rosetta.Orchestrator;
+using Rosetta.Orchestrator.WorkerTelemetry;
+using System;
+using System.Text;
+using System.Threading;
 using static Rosetta.Orchestrator.SettingsManager;
-
+using static Rosetta.Orchestrator.Telemetry.Logger;
 
 Log("Inicializando orquestador de Rosetta...");
+
+SettingsManager.LoadSettings();
+
+var wsw = new WorkerStatusWatcher();
+
+while(true) {
+    Thread.Sleep(2500);
+    Console.WriteLine(wsw.RetrieveCurrentWorkersStats()[0]);
+    Console.WriteLine();
+}
 
 var factory = new ConnectionFactory {
     Uri = new Uri(GetSetting(OrchestratorSettings.RabbitMqUrl))
