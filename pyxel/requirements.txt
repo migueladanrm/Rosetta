@@ -1,3 +1,4 @@
 pika
-psycopg2
+Pillow
+psycopg2-binary
 pymongo

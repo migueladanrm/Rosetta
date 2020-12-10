@@ -89,20 +89,17 @@ services:
       - postgres
       - rabbitmq
       - server
-    env_file: .env.pyxel-01
     environment:
       PYXEL_MONGO_URL: ${PYXEL_MONGO_URL}
-      PYXEL_MONGO_DB: ${PYXEL_MONGO_DB}
-      PYXEL_MONGO_BUCKET: ${PYXEL_MONGO_BUCKET}
       PYXEL_POSTGRES_URL: ${PYXEL_POSTGRES_URL}
       PYXEL_RABBITMQ_HOST: ${PYXEL_RABBITMQ_HOST}
       PYXEL_RABBITMQ_PORT: ${PYXEL_RABBITMQ_PORT}
       PYXEL_RABBITMQ_USER: ${PYXEL_RABBITMQ_USER}
       PYXEL_RABBITMQ_PASS: ${PYXEL_RABBITMQ_PASS}
-      PYXEL_WORKER_ID: ${PYXEL_WORKER_ID}
+      PYXEL_WORKER_ID: ${PYXEL_WORKER_ID_01}
     networks:
       - default
-  pyxel-01:
+  pyxel-02:
     container_name: "${PROJECT_NAME}-pyxel-02"
     image: "rosetta/pyxel"
     restart: on-failure
@@ -114,17 +111,14 @@ services:
       - postgres
       - rabbitmq
       - server
-    env_file: .env.pyxel-02
     environment:
       PYXEL_MONGO_URL: ${PYXEL_MONGO_URL}
-      PYXEL_MONGO_DB: ${PYXEL_MONGO_DB}
-      PYXEL_MONGO_BUCKET: ${PYXEL_MONGO_BUCKET}
       PYXEL_POSTGRES_URL: ${PYXEL_POSTGRES_URL}
       PYXEL_RABBITMQ_HOST: ${PYXEL_RABBITMQ_HOST}
       PYXEL_RABBITMQ_PORT: ${PYXEL_RABBITMQ_PORT}
       PYXEL_RABBITMQ_USER: ${PYXEL_RABBITMQ_USER}
       PYXEL_RABBITMQ_PASS: ${PYXEL_RABBITMQ_PASS}
-      PYXEL_WORKER_ID: ${PYXEL_WORKER_ID}
+      PYXEL_WORKER_ID: ${PYXEL_WORKER_ID_02}
     networks:
       - default
 networks:
