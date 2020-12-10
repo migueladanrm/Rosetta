@@ -17,7 +17,7 @@ namespace Rosetta.Orchestrator.WorkerTelemetry
         public WorkerStatusWatcher() {
             stats = new Dictionary<string, List<WorkerTelemetrySnapshot>>();
 
-            using var connection = DatabaseConnectionManager.GetDatabaseConnection();
+            using var connection = ConnectionManager.GetDatabaseConnection();
             using var command = new NpgsqlCommand("SELECT id FROM public.worker;", connection);
             using var reader = command.ExecuteReader();
             while (reader.Read())

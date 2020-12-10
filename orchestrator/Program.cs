@@ -1,46 +1,39 @@
-﻿using RabbitMQ.Client;
+﻿using Newtonsoft.Json.Linq;
+using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using Rosetta.Orchestrator;
 using Rosetta.Orchestrator.WorkerTelemetry;
 using System;
 using System.Text;
 using System.Threading;
+using static Rosetta.Orchestrator.ConnectionManager;
 using static Rosetta.Orchestrator.SettingsManager;
 using static Rosetta.Orchestrator.Telemetry.Logger;
 
-Log("Inicializando orquestador de Rosetta...");
+Log("Inicializando Rosetta Orchestrator para Pyxel...");
 
-SettingsManager.LoadSettings();
+LoadSettings();
 
 var wsw = new WorkerStatusWatcher();
 
-while(true) {
-    Thread.Sleep(2500);
-    Console.WriteLine(wsw.RetrieveCurrentWorkersStats()[0]);
-    Console.WriteLine();
-}
+const string EXCHANGE_NAME = "XPyxel";
+const string QUEUE_NAME = "pyxel-orchestrator";
 
-var factory = new ConnectionFactory {
-    Uri = new Uri(GetSetting(OrchestratorSettings.RabbitMqUrl))
-};
-
-using var connection = factory.CreateConnection();
+using var connection = GetRabbitMQConnectionFactory().CreateConnection();
 using var channel = connection.CreateModel();
-
-channel.ExchangeDeclare(exchange: "XPyxel", type: ExchangeType.Direct, durable: true);
-
-var queueName = channel.QueueDeclare().QueueName;
-channel.QueueBind(queue: queueName, exchange: "XPyxel", routingKey: "");
-
-Console.WriteLine(" [*] Waiting for logs.");
+channel.ExchangeDeclare(exchange: EXCHANGE_NAME, type: ExchangeType.Direct, durable: true);
+channel.QueueBind(queue: QUEUE_NAME, exchange: EXCHANGE_NAME, routingKey: "");
 
 var consumer = new EventingBasicConsumer(channel);
-consumer.Received += (model, ea) => {
-    var body = ea.Body.ToArray();
-    var message = Encoding.UTF8.GetString(body);
-    Console.WriteLine(" [x] {0}", message);
-};
-channel.BasicConsume(queue: queueName, autoAck: true, consumer: consumer);
+consumer.Received += (model, e) => {
+    Log("Mensaje recibido. Procediendo a asignación de tareas...");
+        
+    var rawMessage = Encoding.UTF8.GetString(e.Body.ToArray());
+    var json = JObject.Parse(rawMessage);
 
-Console.WriteLine(" Press [enter] to exit.");
-Console.ReadLine(); 
+    Console.WriteLine(" [x] {0}", rawMessage);
+};
+channel.BasicConsume(queue: QUEUE_NAME, autoAck: true, consumer: consumer);
+
+Log("Orchestrator está listo. Esperando mensajes...");
+Console.ReadKey();
