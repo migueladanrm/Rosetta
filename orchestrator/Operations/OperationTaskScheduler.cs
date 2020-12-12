@@ -8,21 +8,22 @@ namespace Rosetta.Orchestrator.Operations
 {
     public class OperationTaskScheduler {
         private OperationsRepository repository;
-        private WorkerStatusWatcher workerStatusWatcher;
         private WorkerNotificationHandler notificationHandler;
+        //private WorkerStatusWatcher workerStatusWatcher;
 
-        public OperationTaskScheduler(OperationsRepository operationsRepository, WorkerStatusWatcher workerStatusWatcher, WorkerNotificationHandler notificationHandler) {
+        //public OperationTaskScheduler(OperationsRepository operationsRepository, WorkerStatusWatcher workerStatusWatcher, WorkerNotificationHandler notificationHandler) {
+        public OperationTaskScheduler(OperationsRepository operationsRepository, WorkerNotificationHandler notificationHandler) {
             repository = operationsRepository;
-            this.workerStatusWatcher = workerStatusWatcher;
+            //this.workerStatusWatcher = workerStatusWatcher;
             this.notificationHandler = notificationHandler;
         }
 
         public void HandleOperation(string id) {
             Log($"Iniciando proceso de asignación de tareas de la operación '{id}'...");
 
-            var workerStats = workerStatusWatcher.RetrieveCurrentWorkersStats();
-            var workerNames = workerStats.Select(wsw => wsw.WorkerName).ToList();
-
+            //var workerStats = workerStatusWatcher.RetrieveCurrentWorkersStats();
+            //var workerNames = workerStats.Select(wsw => wsw.WorkerName).ToList();
+            var workerNames = Worker.GetWorkers().Select(w => w.Id).ToList();
             var operation = repository.GetOperation(id);
             var tasks = repository.GetOperationTasks(id);
             var nFilters = operation.Filters.Count;
@@ -37,8 +38,8 @@ namespace Rosetta.Orchestrator.Operations
             Log($"Asignando {nOperations} tareas...");
 
             if (nOperations == 1) {
-                var worker = workerStats.OrderByDescending(wsw => wsw.CpuUsage).First().WorkerName;
-
+                //var worker = workerStats.OrderByDescending(wsw => wsw.CpuUsage).First().WorkerName;
+                var worker = workerNames.First();
                 repository.AssignOperationTask(tasks.First().Id.ToString(), worker);
             }
 

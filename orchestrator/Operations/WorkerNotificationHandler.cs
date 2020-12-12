@@ -22,11 +22,7 @@ namespace Rosetta.Orchestrator.Operations
         }
 
         private void Setup() {
-            using var connection = GetDatabaseConnection();
-            using var command = new NpgsqlCommand("SELECT id FROM public.worker;", connection);
-            using var reader = command.ExecuteReader();
-            while (reader.Read())
-                workers.Add((string)reader["id"]);
+            Worker.GetWorkers().ForEach(w => workers.Add(w.Id));
 
             rabbitmq = GetRabbitMQConnectionFactory().CreateConnection();
             channel = rabbitmq.CreateModel();

@@ -15,7 +15,8 @@ Log("Inicializando Rosetta Orchestrator para Pyxel...");
 LoadSettings();
 #endif
 
-var ots = new OperationTaskScheduler(new OperationsRepository(), new WorkerStatusWatcher(), new WorkerNotificationHandler());
+//var ots = new OperationTaskScheduler(new OperationsRepository(), new WorkerStatusWatcher(), new WorkerNotificationHandler());
+var ots = new OperationTaskScheduler(new OperationsRepository(), new WorkerNotificationHandler());
 
 const string EXCHANGE_NAME = "XPyxel";
 const string QUEUE_NAME = "pyxel-orchestrator";
@@ -37,4 +38,5 @@ consumer.Received += (model, e) => {
 channel.BasicConsume(queue: QUEUE_NAME, autoAck: true, consumer: consumer);
 
 Log("Orchestrator está listo. Esperando mensajes...");
-Console.ReadKey();
+
+while (true) ;
