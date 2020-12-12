@@ -13,9 +13,6 @@ export class QueueDao implements QueueRepository {
       durable: true,
     });
     this.queue.bind(this.exchange);
-    // this.queue.activateConsumer((message) => {
-    //   console.log("Message received: " + message.getContent());
-    // });
     this.connection.completeConfiguration().then(() => {
       console.log("Queue server is ready!");
     });
