@@ -2,14 +2,14 @@ begin;
 
 create extension if not exists "uuid-ossp";
 
---drop table public.worker;
+-- Tables
+
 create table public.worker
 (
     id   char(8)               not null primary key,
     name character varying(32) not null
 );
 
---drop table public.operation;
 create table public.operation
 (
     id          uuid                    not null primary key default uuid_generate_v4(),
@@ -20,7 +20,6 @@ create table public.operation
     creation    timestamp               not null             default now()
 );
 
---drop table public.operation_item_task;
 create table public.operation_task
 (
     id              uuid                  not null primary key default uuid_generate_v4(),
@@ -33,7 +32,7 @@ create table public.operation_task
     output_file     char(24)              null
 );
 
--- TRIGGERS
+-- Triggers
 
 create or replace function register_operation_tasks() returns trigger
     language plpgsql as

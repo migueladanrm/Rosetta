@@ -1,5 +1,66 @@
-<div style="margin: auto">
-  <h1>¡Bienvenido a Rosetta!</h1>
+<div>
+  <h1 style="margin-top: 5vh; margin-left: 5vw">¡Bienvenido a Rosetta!</h1>
+  <p style="margin-left: 5vw">Seleccione una acción para empezar.</p>
 
-  <div></div>
+  <div
+    class="center-horizontal flex-space-between"
+    style="
+      display: flex;
+      flex-direction: row;
+      width: auto;
+      margin-left: 7.5vw;
+      margin-right: 7.5vw;
+      margin-top: 10vh;
+    "
+  >
+    <mat-card
+      class="action-card"
+      mat-ripple
+      style="margin-right: 5vw; width: 25vw"
+    >
+      <div>
+        <div style="margin: auto; width: 96px; margin-bottom: 24px">
+          <mat-icon aria-hidden="false" style="font-size: 96px"
+            >create_new_folder</mat-icon
+          >
+        </div>
+        <mat-card-title>Crear operación</mat-card-title>
+        <mat-card-subtitle
+          >Agregue un conjunto de imágenes para aplicar
+          filtros.</mat-card-subtitle
+        >
+      </div>
+    </mat-card>
+
+    <mat-card
+      class="action-card"
+      mat-ripple
+      style="margin-right: 5vw; width: 25vw"
+    >
+      <div>
+        <div style="margin: auto; width: 96px; margin-bottom: 24px">
+          <mat-icon aria-hidden="false" style="font-size: 96px"
+            >folder</mat-icon
+          >
+        </div>
+        <mat-card-title>Ver operación</mat-card-title>
+        <mat-card-subtitle
+          >Seleccione una operación creada y visualice los
+          resultados.</mat-card-subtitle
+        >
+      </div>
+    </mat-card>
+
+    <mat-card class="action-card" mat-ripple style="width: 25vw">
+      <div>
+        <div style="margin: auto; width: 96px; margin-bottom: 24px">
+          <mat-icon aria-hidden="false" style="font-size: 96px"
+            >history</mat-icon
+          >
+        </div>
+        <mat-card-title>Historial</mat-card-title>
+        <mat-card-subtitle>Visualice la cola de operaciones.</mat-card-subtitle>
+      </div>
+    </mat-card>
+  </div>
 </div>
