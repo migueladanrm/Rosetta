@@ -1,1 +1,26 @@
-<p>view-operation works!</p>
+<div style="margin-left: 10vw; margin-right: 10vw; padding-top: 5vh">
+  <form class="main-form" style="margin: auto">
+    <h1>Ver operación</h1>
+    <p>Introdúzca el identificador único de operación para continuar.</p>
+    <mat-form-field class="full-width" style="margin-top: 16px">
+      <mat-label>Identificador de operación</mat-label>
+      <input
+        matInput
+        required
+        style="font-family: Consolas, 'Courier New', Courier, monospace"
+        placeholder="00000000-0000-0000-0000-000000000000"
+        [formControl]="form.get('operation')"
+      />
+    </mat-form-field>
+
+    <button
+      mat-flat-button
+      color="accent"
+      style="margin-top: 16px"
+      type="submit"
+      [routerLink]="['/view-operation/', form.get('operation').value]"
+    >
+      Ver
+    </button>
+  </form>
+</div>

@@ -18,8 +18,9 @@ import { ViewOperationComponent } from './view-operation/view-operation.componen
 import { HistoryComponent } from './history/history.component';
 import { OperationDetailsComponent } from './operation-details/operation-details.component';
 import { HttpClientModule } from '@angular/common/http';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -44,6 +45,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MatDividerModule,
     MatDialogModule,
     MatProgressSpinnerModule,
+    FormsModule,
   ],
   providers: [FormBuilder],
   bootstrap: [AppComponent],

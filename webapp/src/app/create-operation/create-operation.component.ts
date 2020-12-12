@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { environment } from 'src/environments/environment';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-operation',
@@ -12,7 +13,11 @@ export class CreateOperationComponent implements OnInit {
   files: File[];
   form: FormGroup;
 
-  constructor(private formBuilder: FormBuilder, private http: HttpClient) {}
+  constructor(
+    private router: Router,
+    private formBuilder: FormBuilder,
+    private http: HttpClient
+  ) {}
 
   ngOnInit(): void {
     this.form = this.formBuilder.group({
@@ -76,12 +81,16 @@ export class CreateOperationComponent implements OnInit {
     this.http
       .post<any>(`${environment.serverBaseUrl}/operations/create`, fd)
       .subscribe(
-        (res) => console.log(res),
+        (res) => {
+          console.log(res);
+          alert(
+            'La operación se ha creado correctamente y será procesada en breve.'
+          );
+          this.router.navigateByUrl('/');
+        },
         (err) => console.log(err)
       );
   }
 
-  showSendingDialog() {
-    
-  }
+  showSendingDialog() {}
 }
