@@ -17,6 +17,7 @@
       class="action-card"
       mat-ripple
       style="margin-right: 5vw; width: 25vw"
+      [routerLink]="['/create-operation']"
     >
       <div>
         <div style="margin: auto; width: 96px; margin-bottom: 24px">
@@ -36,6 +37,7 @@
       class="action-card"
       mat-ripple
       style="margin-right: 5vw; width: 25vw"
+      [routerLink]="['/view-operation']"
     >
       <div>
         <div style="margin: auto; width: 96px; margin-bottom: 24px">
@@ -51,7 +53,12 @@
       </div>
     </mat-card>
 
-    <mat-card class="action-card" mat-ripple style="width: 25vw">
+    <mat-card
+      class="action-card"
+      mat-ripple
+      style="width: 25vw"
+      [routerLink]="['/history']"
+    >
       <div>
         <div style="margin: auto; width: 96px; margin-bottom: 24px">
           <mat-icon aria-hidden="false" style="font-size: 96px"

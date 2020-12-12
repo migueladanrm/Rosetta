@@ -12,9 +12,12 @@ import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatRippleModule } from '@angular/material/core';
+import { ViewOperationComponent } from './view-operation/view-operation.component';
+import { HistoryComponent } from './history/history.component';
+import { OperationDetailsComponent } from './operation-details/operation-details.component';
 
 @NgModule({
-  declarations: [AppComponent, HomeComponent, CreateOperationComponent],
+  declarations: [AppComponent, HomeComponent, CreateOperationComponent, ViewOperationComponent, HistoryComponent, OperationDetailsComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
