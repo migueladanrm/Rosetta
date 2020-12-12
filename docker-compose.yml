@@ -1,5 +1,17 @@
 version: "3.8"
 services:
+  postgres:
+    container_name: "${PROJECT_NAME}-postgres"
+    image: postgres:12-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "${POSTGRES_PORT}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./postgres/ddl.sql:/docker-entrypoint-initdb.d/ddl.sql
+      - ./postgres/dml.sql:/docker-entrypoint-initdb.d/dml.sql
   mongo:
     container_name: "${PROJECT_NAME}-mongo"
     image: mongo:4.0.20-xenial
@@ -64,16 +76,6 @@ services:
       ORCHESTRATOR_DOCKER_STATS_API: ${ORCHESTRATOR_DOCKER_STATS_API}
     networks:
       - default
-  postgres:
-    container_name: "${PROJECT_NAME}-postgres"
-    image: postgres:12-alpine
-    restart: unless-stopped
-    environment:
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-    ports:
-      - "${POSTGRES_PORT}:5432"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
   webapp:
     container_name: "${PROJECT_NAME}-web"
     image: "rosetta/web"
