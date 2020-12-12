@@ -11,10 +11,11 @@ using static Rosetta.Orchestrator.Telemetry.Logger;
 
 Log("Inicializando Rosetta Orchestrator para Pyxel...");
 
+#if DEBUG
 LoadSettings();
+#endif
 
-var wsw = new WorkerStatusWatcher();
-var ots = new OperationTaskScheduler(new OperationsRepository(), wsw);
+var ots = new OperationTaskScheduler(new OperationsRepository(), new WorkerStatusWatcher(), new WorkerNotificationHandler());
 
 const string EXCHANGE_NAME = "XPyxel";
 const string QUEUE_NAME = "pyxel-orchestrator";

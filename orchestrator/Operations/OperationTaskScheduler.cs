@@ -1,18 +1,20 @@
-﻿using Rosetta.Orchestrator.WorkerTelemetry;
+﻿using Newtonsoft.Json.Linq;
+using Rosetta.Orchestrator.WorkerTelemetry;
 using System.Collections.Generic;
 using System.Linq;
 using static Rosetta.Orchestrator.Telemetry.Logger;
 
 namespace Rosetta.Orchestrator.Operations
 {
-    public class OperationTaskScheduler
-    {
+    public class OperationTaskScheduler {
         private OperationsRepository repository;
         private WorkerStatusWatcher workerStatusWatcher;
+        private WorkerNotificationHandler notificationHandler;
 
-        public OperationTaskScheduler(OperationsRepository operationsRepository, WorkerStatusWatcher workerStatusWatcher) {
+        public OperationTaskScheduler(OperationsRepository operationsRepository, WorkerStatusWatcher workerStatusWatcher, WorkerNotificationHandler notificationHandler) {
             repository = operationsRepository;
             this.workerStatusWatcher = workerStatusWatcher;
+            this.notificationHandler = notificationHandler;
         }
 
         public void HandleOperation(string id) {
@@ -64,6 +66,8 @@ namespace Rosetta.Orchestrator.Operations
                     repository.AssignOperationTask(taskId, kv.Key);
                 });
             }
+
+            notificationHandler.NotifyWorkers(JObject.Parse("{\"operation\":\"ID\"}".Replace("ID", id)));
 
             Log("Asignación finalizada. Se procede a notificar a los nodos.");
         }

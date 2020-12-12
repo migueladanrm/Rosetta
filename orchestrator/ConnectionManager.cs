@@ -23,7 +23,8 @@ namespace Rosetta.Orchestrator
 
         public static ConnectionFactory GetRabbitMQConnectionFactory() {
             return new ConnectionFactory {
-                Uri = new Uri(Environment.GetEnvironmentVariable("ORCHESTRATOR_RABBITMQ_URL"))
+                Uri = new Uri(Environment.GetEnvironmentVariable("ORCHESTRATOR_RABBITMQ_URL")),
+                NetworkRecoveryInterval = TimeSpan.FromSeconds(30)
             };
         }
     }

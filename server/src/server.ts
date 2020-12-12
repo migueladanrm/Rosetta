@@ -22,7 +22,7 @@ export class Server {
   private setupApp(): void {
     this.app = express()
       .use(bodyParser.json())
-      .use(morgan("dev"))
+      //.use(morgan("dev"))
       .use((req: Request, res: Response, next: NextFunction) => {
         res
           .header("Access-Control-Allow-Origin", "*")

@@ -28,6 +28,8 @@ def main():
     connection = BlockingConnection(
         ConnectionParameters(host=RABBITMQ_HOST, port=RABBITMQ_PORT, credentials=PlainCredentials(RABBITMQ_USER, RABBITMQ_PASS), virtual_host="/"))
     channel = connection.channel()
+    channel.exchange_declare(
+        exchange="XPyxel-Nodes", exchange_type="direct", durable=True)
     channel.queue_declare(queue=WORKER_ID, durable=True)
     channel.basic_consume(
         queue=WORKER_ID, on_message_callback=on_message_receive_callback, auto_ack=True)
@@ -40,13 +42,3 @@ def main():
 log("Inicializando Pyxel. Nodo: {}".format(WORKER_ID))
 
 main()
-
-# if __name__ == '__main__':
-#     try:
-#         main()
-#     except KeyboardInterrupt:
-#         print('Interrupted')
-#         try:
-#             sys.exit(0)
-#         except SystemExit:
-#             os._exit(0)

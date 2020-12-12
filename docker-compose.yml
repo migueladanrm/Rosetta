@@ -52,6 +52,10 @@ services:
       - mongo
       - postgres
       - rabbitmq
+    environment:
+      ORCHESTRATOR_RABBITMQ_URL: ${ORCHESTRATOR_RABBITMQ_URL}
+      ORCHESTRATOR_POSTGRES_URL: ${ORCHESTRATOR_POSTGRES_URL}
+      ORCHESTRATOR_DOCKER_STATS_API: ${ORCHESTRATOR_DOCKER_STATS_API}
     networks:
       - default
   postgres:
