@@ -12,24 +12,40 @@ import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatRippleModule } from '@angular/material/core';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatDialogModule } from '@angular/material/dialog';
 import { ViewOperationComponent } from './view-operation/view-operation.component';
 import { HistoryComponent } from './history/history.component';
 import { OperationDetailsComponent } from './operation-details/operation-details.component';
-
+import { HttpClientModule } from '@angular/common/http';
+import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 @NgModule({
-  declarations: [AppComponent, HomeComponent, CreateOperationComponent, ViewOperationComponent, HistoryComponent, OperationDetailsComponent],
+  declarations: [
+    AppComponent,
+    HomeComponent,
+    CreateOperationComponent,
+    ViewOperationComponent,
+    HistoryComponent,
+    OperationDetailsComponent,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    HttpClientModule,
+    ReactiveFormsModule,
     MatButtonModule,
     MatCheckboxModule,
     MatInputModule,
     MatCardModule,
     MatIconModule,
     MatRippleModule,
+    MatDividerModule,
+    MatDialogModule,
+    MatProgressSpinnerModule,
   ],
-  providers: [],
+  providers: [FormBuilder],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

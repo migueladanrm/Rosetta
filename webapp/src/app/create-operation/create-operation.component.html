@@ -1,32 +1,58 @@
-<div style="margin-left: 10vw; margin-right: 10vw;padding-top: 5vh;">
-  <h1>Crear operación</h1>
-  <p>
-    Para crear una operación, seleccione a continuación los filtros que desea
-    aplicar, y posteriormente agregue las imágenes a procesar.
-  </p>
-<h2>Descripción</h2>
-<!-- <mat-form-field class="example-full-width">
-  <mat-label>Introdúzca una descripción del lote de imágenes</mat-label>
-  <textarea matInput placeholder="Ex. It makes me feel..."></textarea>
-</mat-form-field> -->
+<div style="margin-left: 10vw; margin-right: 10vw; padding-top: 5vh">
+  <form
+    [formGroup]="form"
+    (ngSubmit)="onSubmit()"
+    class="main-form"
+    style="margin: auto"
+  >
+    <!--
+    method="post"
+    enctype="multipart/form-data"-->
+    <h1>Crear operación</h1>
+    <p>
+      Para crear una operación, seleccione a continuación los filtros que desea
+      aplicar, y posteriormente agregue las imágenes a procesar.
+    </p>
 
-  <h2>Filtros</h2>
-  <p>Seleccione los filtros que desea aplicar a sus imágenes.</p>
-  <div style="display: flex; flex-direction: column">
-    <mat-checkbox>BLUR</mat-checkbox>
-    <mat-checkbox>CONTOUR</mat-checkbox>
-    <mat-checkbox>DETAIL</mat-checkbox>
-    <mat-checkbox>EDGE ENHANCE</mat-checkbox>
-    <mat-checkbox>EDGE ENHANCE + </mat-checkbox>
-    <mat-checkbox>EMBOS</mat-checkbox>
-    <mat-checkbox>FIND EDGES</mat-checkbox>
-    <mat-checkbox>SHARPEN</mat-checkbox>
-    <mat-checkbox>SMOOTH</mat-checkbox>
-    <mat-checkbox>SMOOTH + </mat-checkbox>
-  </div>
+    <mat-form-field class="example-full-width">
+      <mat-label>Descripción</mat-label>
+      <input matInput [formControl]="form.get('description')" />
+    </mat-form-field>
 
-  <h2>Imágenes</h2>
-  <p>Seleccione las imágenes:</p>
+    <p>Seleccione los filtros que desea aplicar a sus imágenes.</p>
+    <div style="display: flex; flex-direction: column">
+      <mat-checkbox [formControl]="form.get('fBlur')">BLUR</mat-checkbox>
+      <mat-checkbox [formControl]="form.get('fContour')">CONTOUR</mat-checkbox>
+      <mat-checkbox [formControl]="form.get('fDetail')">DETAIL</mat-checkbox>
+      <mat-checkbox [formControl]="form.get('fEdgeEnhance')">EDGE ENHANCE</mat-checkbox>
+      <mat-checkbox [formControl]="form.get('fEdgeEnhancePlus')">EDGE ENHANCE + </mat-checkbox>
+      <mat-checkbox [formControl]="form.get('fEmboss')">EMBOSS</mat-checkbox>
+      <mat-checkbox [formControl]="form.get('fFindEdges')">FIND EDGES</mat-checkbox>
+      <mat-checkbox [formControl]="form.get('fSharpen')">SHARPEN</mat-checkbox>
+      <mat-checkbox [formControl]="form.get('fSmooth')">SMOOTH</mat-checkbox>
+      <mat-checkbox [formControl]="form.get('fSmoothPlus')">SMOOTH + </mat-checkbox>
+    </div>
 
-  <button mat-flat-button color="accent">Crear</button>
+    <p style="margin-top: 16px">Seleccione las imágenes que desea procesar.</p>
+
+    <div style="display: flex; flex-direction: column"></div>
+    <input
+      id="files"
+      type="file"
+      multiple
+      style="margin-bottom: 16px"
+      accept="image/jpeg"
+      (change)="onFileSelected($event.target)"
+    />
+    <mat-divider></mat-divider>
+
+    <button
+      mat-flat-button
+      color="accent"
+      style="margin-top: 16px"
+      type="submit"
+    >
+      Crear
+    </button>
+  </form>
 </div>
