@@ -1,7 +1,14 @@
-<div class="main-form" style="margin: auto; margin-top: 5vh;">
+<div class="main-form" style="margin: auto; margin-top: 5vh">
   <h1>Detalles de operación</h1>
   <mat-card>
     <mat-card-title>Información</mat-card-title>
+    <div style="display: flex; flex-direction: row; margin-top: 16px">
+      <mat-icon *ngIf="operation.isDone" color="accent">check_circle</mat-icon>
+      <mat-icon *ngIf="!operation.isDone" color="accent">schedule</mat-icon>
+      <p style="margin-top: auto; margin-bottom: auto; padding-left: 8px">
+        {{ operation.isDone ? "Ejecutado" : "Pendiente" }}
+      </p>
+    </div>
     <form>
       <mat-form-field class="full-width" style="margin-top: 16px">
         <mat-label>Identificador de operación</mat-label>
@@ -9,7 +16,7 @@
           matInput
           readonly
           style="font-family: Consolas, 'Courier New', Courier, monospace"
-          value="00000000-0000-0000-0000-000000000000"
+          value="{{ operation.id }}"
         />
       </mat-form-field>
 
@@ -19,15 +26,49 @@
           matInput
           readonly
           style="font-family: Consolas, 'Courier New', Courier, monospace"
-          value="00000000-0000-0000-0000-000000000000"
+          value="{{ operation.creation | date: 'dd/MM/yyyy HH:mm:ss.SSS' }}"
         />
       </mat-form-field>
-      <h3>Filtros</h3> 
+      <h3>Filtros</h3>
+      <ul>
+        <li *ngFor="let filter of operation.filters">{{ filter }}</li>
+      </ul>
     </form>
   </mat-card>
 
-  <mat-card style="margin-top: 16px;">
+  <mat-card style="margin-top: 16px">
     <mat-card-title>Lote original</mat-card-title>
-    <!-- <mat-card-subtitle>{{}}</mat-card-subtitle> -->
+    <mat-card-subtitle style="margin-top: 8px"
+      >{{ operation.items.length }} elemento(s)</mat-card-subtitle
+    >
+    <div>
+      <mat-grid-list cols="5" rowHeight="1:1">
+        <mat-grid-tile *ngFor="let i of inputImages">
+          <img
+            src="{{ i }}"
+            style="max-width: 100%; max-height: 100%; cursor: pointer"
+            (click)="openImage(i)"
+          />
+        </mat-grid-tile>
+      </mat-grid-list>
+    </div>
+  </mat-card>
+
+  <mat-card style="margin-top: 16px">
+    <mat-card-title>Lote de salida</mat-card-title>
+    <mat-card-subtitle style="margin-top: 8px"
+      >{{ outputImages.length }} elemento(s)</mat-card-subtitle
+    >
+    <div>
+      <mat-grid-list cols="5" rowHeight="1:1">
+        <mat-grid-tile *ngFor="let i of outputImages">
+          <img
+            src="{{ i }}"
+            style="max-width: 100%; max-height: 100%; cursor: pointer"
+            (click)="openImage(i)"
+          />
+        </mat-grid-tile>
+      </mat-grid-list>
+    </div>
   </mat-card>
 </div>

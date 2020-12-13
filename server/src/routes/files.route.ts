@@ -12,7 +12,7 @@ export function FilesRoute(storage: StorageService): Router {
 
       res.set({
         "Content-Type": metadata.contentType,
-        "Content-Disposition": "attachment; filename=" + metadata.filename,
+        "Content-Disposition": "filename=" + metadata.filename,
       });
 
       payload.pipe(res);

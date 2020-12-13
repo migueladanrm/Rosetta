@@ -8,6 +8,14 @@ export function OperationsRoute(
   storage: StorageService
 ): Router {
   return Router()
+    .get("/", async (req: Request, res: Response) => {
+      const limit: number =
+        req.query.limit == undefined
+          ? 50
+          : Number.parseInt(req.query.limit as string);
+      const latestOperations = await operations.getOperations(limit);
+      res.status(200).json(latestOperations);
+    })
     .post(
       "/create",
       storage.getUploader().array("images", 10),
@@ -41,7 +49,8 @@ export function OperationsRoute(
       } else {
         res.sendStatus(400);
       }
-    }).get("/:id/tasks",async(req:Request,res:Response)=>{
+    })
+    .get("/:id/tasks", async (req: Request, res: Response) => {
       const operationId = req.params.id;
       if (operationId != undefined) {
         const operation = await operations.getOperationTasks(operationId);
@@ -53,5 +62,5 @@ export function OperationsRoute(
       } else {
         res.sendStatus(400);
       }
-    })
+    });
 }

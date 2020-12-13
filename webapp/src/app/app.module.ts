@@ -20,6 +20,7 @@ import { OperationDetailsComponent } from './operation-details/operation-details
 import { HttpClientModule } from '@angular/common/http';
 import { FormBuilder, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatGridListModule } from '@angular/material/grid-list';
 
 @NgModule({
   declarations: [
@@ -46,6 +47,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MatDialogModule,
     MatProgressSpinnerModule,
     FormsModule,
+    MatGridListModule,
   ],
   providers: [FormBuilder],
   bootstrap: [AppComponent],

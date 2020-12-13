@@ -19,6 +19,10 @@ export class OperationsService {
     return await this.repository.getOperation(id);
   }
 
+  async getOperations(limit: number): Promise<Operation[]> {
+    return await this.repository.getOperations(limit);
+  }
+
   async getOperationTasks(operationId: string): Promise<OperationTask[]> {
     if ((await this.getOperation(operationId)) == undefined) {
       return undefined;
