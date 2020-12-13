@@ -3,6 +3,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { environment } from 'src/environments/environment';
 import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogWorkingComponent } from '../dialog-working/dialog-working.component';
+import { DialogOperationCreatedComponent } from '../dialog-operation-created/dialog-operation-created.component';
 
 @Component({
   selector: 'app-create-operation',
@@ -16,7 +19,8 @@ export class CreateOperationComponent implements OnInit {
   constructor(
     private router: Router,
     private formBuilder: FormBuilder,
-    private http: HttpClient
+    private http: HttpClient,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -78,15 +82,26 @@ export class CreateOperationComponent implements OnInit {
       fd.append('images', f, f.name);
     }
 
+    const dlgWorking = this.dialog.open(DialogWorkingComponent, {
+      disableClose: true,
+    });
+
     this.http
       .post<any>(`${environment.serverBaseUrl}/operations/create`, fd)
       .subscribe(
         (res) => {
           console.log(res);
-          alert(
-            'La operación se ha creado correctamente y será procesada en breve.'
+
+          dlgWorking.disableClose = false;
+          dlgWorking.close();
+
+          const dlgCreatedOperation = this.dialog.open(
+            DialogOperationCreatedComponent,
+            { data: { operationId: res.id } }
           );
-          this.router.navigateByUrl('/');
+          dlgCreatedOperation.afterClosed().subscribe((result) => {
+            this.router.navigateByUrl('/');
+          });
         },
         (err) => console.log(err)
       );

@@ -1,0 +1,28 @@
+<div style="display: flex; flex-direction: column">
+  <h1
+    style="
+      font-family: Consolas, 'Courier New', Courier, monospace;
+      margin-left: auto;
+      margin-right: auto;
+      padding: 16px;
+    "
+  >
+    {{ data.operationId }}
+  </h1>
+  <h2 style="margin-left: auto; margin-right: auto">
+    ¡Operación creada exitosamente!
+  </h2>
+  <p style="margin-left: auto; margin-right: auto">
+    Guarde este código para consultar la operación más tarde.
+  </p>
+
+  <button
+    mat-flat-button
+    color="accent"
+    style="margin-top: 16px"
+    mat-dialog-close
+    mat-dialog-close="true"
+  >
+    Aceptar
+  </button>
+</div>

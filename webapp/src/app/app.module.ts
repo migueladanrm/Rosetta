@@ -1,27 +1,29 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { FormBuilder, ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CreateOperationComponent } from './create-operation/create-operation.component';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatInputModule } from '@angular/material/input';
-import { MatCardModule } from '@angular/material/card';
-import { MatIconModule } from '@angular/material/icon';
-import { MatRippleModule } from '@angular/material/core';
-import { MatDividerModule } from '@angular/material/divider';
-import { MatDialogModule } from '@angular/material/dialog';
-import { ViewOperationComponent } from './view-operation/view-operation.component';
+import { DialogWorkingComponent } from './dialog-working/dialog-working.component';
+import { DialogOperationCreatedComponent } from './dialog-operation-created/dialog-operation-created.component';
 import { HistoryComponent } from './history/history.component';
-import { OperationDetailsComponent } from './operation-details/operation-details.component';
-import { HttpClientModule } from '@angular/common/http';
-import { FormBuilder, ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatDividerModule } from '@angular/material/divider';
 import { MatGridListModule } from '@angular/material/grid-list';
-import {MatTableModule} from '@angular/material/table';
+import { MatInputModule } from '@angular/material/input';
+import { MatIconModule } from '@angular/material/icon';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatRippleModule } from '@angular/material/core';
+import { MatTableModule } from '@angular/material/table';
+import { OperationDetailsComponent } from './operation-details/operation-details.component';
+import { ViewOperationComponent } from './view-operation/view-operation.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +33,8 @@ import {MatTableModule} from '@angular/material/table';
     ViewOperationComponent,
     HistoryComponent,
     OperationDetailsComponent,
+    DialogWorkingComponent,
+    DialogOperationCreatedComponent,
   ],
   imports: [
     BrowserModule,
@@ -49,7 +53,7 @@ import {MatTableModule} from '@angular/material/table';
     MatProgressSpinnerModule,
     FormsModule,
     MatGridListModule,
-    MatTableModule
+    MatTableModule,
   ],
   providers: [FormBuilder],
   bootstrap: [AppComponent],
