@@ -1,4 +1,6 @@
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-history',
@@ -7,9 +9,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HistoryComponent implements OnInit {
 
-  constructor() { }
+  queue = [];
+
+  constructor(private http:HttpClient) { }
 
   ngOnInit(): void {
+    this.http
+    .get(`${environment.serverBaseUrl}/operations`)
+    .subscribe({
+      next: (data:[]) => {
+        this.queue = data;
+      },
+      error: (err: HttpErrorResponse) => console.error(err),
+    });
   }
 
 }

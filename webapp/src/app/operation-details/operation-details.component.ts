@@ -1,6 +1,5 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { getMatInputUnsupportedTypeError } from '@angular/material/input';
 import { ActivatedRoute } from '@angular/router';
 import { environment } from 'src/environments/environment';
 
@@ -12,7 +11,7 @@ import { environment } from 'src/environments/environment';
 export class OperationDetailsComponent implements OnInit {
   operation: any;
   inputImages = [];
-  outputImages= [];
+  outputImages = [];
   constructor(private route: ActivatedRoute, private http: HttpClient) {}
 
   ngOnInit(): void {
@@ -25,18 +24,19 @@ export class OperationDetailsComponent implements OnInit {
             next: (data) => {
               this.operation = data;
               this.operation.items.forEach((i) =>
-                this.inputImages.push(`${environment.serverBaseUrl}/files/${i.id}`
+                this.inputImages.push(
+                  `${environment.serverBaseUrl}/files/${i.id}`
                 )
               );
             },
             error: (err: HttpErrorResponse) => console.error(err),
           });
 
-          this.http
+        this.http
           .get(`${environment.serverBaseUrl}/operations/${operationId}/tasks`)
           .subscribe({
-            next: (data:[]) => {
-              data.forEach((i:any) =>
+            next: (data: []) => {
+              data.forEach((i: any) =>
                 this.outputImages.push(
                   `${environment.serverBaseUrl}/files/${i.outputFile}`
                 )
@@ -49,15 +49,6 @@ export class OperationDetailsComponent implements OnInit {
   }
 
   openImage(url: string) {
-    const imageWindow = window.open('', '_blank');
-    imageWindow.document.write(`
-      <html>
-        <head>
-        </head>
-        <body>
-          <img src="${url}">
-        </body>
-      </html>
-`);
+    window.open(url);
   }
 }

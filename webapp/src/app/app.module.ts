@@ -21,6 +21,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormBuilder, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatGridListModule } from '@angular/material/grid-list';
+import {MatTableModule} from '@angular/material/table';
 
 @NgModule({
   declarations: [
@@ -48,6 +49,7 @@ import { MatGridListModule } from '@angular/material/grid-list';
     MatProgressSpinnerModule,
     FormsModule,
     MatGridListModule,
+    MatTableModule
   ],
   providers: [FormBuilder],
   bootstrap: [AppComponent],

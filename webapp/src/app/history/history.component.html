@@ -1,1 +1,67 @@
-<p>history works!</p>
+<div>
+  <h1 style="margin-left: 2.5vw; margin-top: 2.5vh">Cola de operaciones</h1>
+
+  <div>
+    <mat-table [dataSource]="queue">
+      <ng-container matColumnDef="creation">
+        <mat-header-cell *matHeaderCellDef>Creación</mat-header-cell>
+        <mat-cell *matCellDef="let row">{{
+          row.creation | date: "dd/MM/yyyy HH:mm:ss"
+        }}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="description">
+        <mat-header-cell *matHeaderCellDef>Descripción</mat-header-cell>
+        <mat-cell
+          *matCellDef="let row"
+          style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden"
+          >{{ row.description }}</mat-cell
+        >
+      </ng-container>
+
+      <ng-container matColumnDef="inputBatch">
+        <mat-header-cell *matHeaderCellDef>Lote de entrada</mat-header-cell>
+        <mat-cell *matCellDef="let row"
+          >{{ row.items.length }} elementos</mat-cell
+        >
+      </ng-container>
+
+      <ng-container matColumnDef="filters">
+        <mat-header-cell *matHeaderCellDef>Filtros</mat-header-cell>
+        <mat-cell *matCellDef="let row"
+          >{{ row.filters.length }} filtros</mat-cell
+        >
+      </ng-container>
+
+      <ng-container matColumnDef="status">
+        <mat-header-cell *matHeaderCellDef>Estado</mat-header-cell>
+        <mat-cell *matCellDef="let row">{{
+          row.isDone ? "Completado" : "Pendiente"
+        }}</mat-cell>
+      </ng-container>
+
+      <mat-header-row
+        *matHeaderRowDef="[
+          'creation',
+          'description',
+          'inputBatch',
+          'filters',
+          'status'
+        ]"
+      ></mat-header-row>
+      <mat-row
+        *matRowDef="
+          let row;
+          columns: [
+            'creation',
+            'description',
+            'inputBatch',
+            'filters',
+            'status'
+          ]
+        "
+        [routerLink]="['/view-operation/', row.id]"
+      ></mat-row>
+    </mat-table>
+  </div>
+</div>
