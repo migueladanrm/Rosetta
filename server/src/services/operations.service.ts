@@ -1,3 +1,4 @@
+import { OperationTask } from "../models/operation-task.model";
 import { Operation } from "../models/operation.model";
 import { OperationsRepository } from "../repositories/operations.repository";
 import { QueueRepository } from "../repositories/queue.repository";
@@ -12,5 +13,17 @@ export class OperationsService {
     const result = await this.repository.addOperation(operation);
     await this.queueRepository.sendToOrchestrator(result.id);
     return result;
+  }
+
+  async getOperation(id: string): Promise<Operation> {
+    return await this.repository.getOperation(id);
+  }
+
+  async getOperationTasks(operationId: string): Promise<OperationTask[]> {
+    if ((await this.getOperation(operationId)) == undefined) {
+      return undefined;
+    }
+
+    return this.repository.getOperationTasks(operationId);
   }
 }

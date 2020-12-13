@@ -1,3 +1,4 @@
+import { OperationTask } from "../models/operation-task.model";
 import { Operation } from "../models/operation.model";
 
 export interface OperationsRepository {
@@ -10,4 +11,6 @@ export interface OperationsRepository {
   getPendingOperations(limit: number): Promise<Operation[]>;
 
   getOperations(limit: number): Promise<Operation[]>;
+
+  getOperationTasks(operationId: string): Promise<OperationTask[]>;
 }

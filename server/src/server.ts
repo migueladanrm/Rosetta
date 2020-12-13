@@ -2,8 +2,8 @@ import express, { Application, NextFunction, Request, Response } from "express";
 import bodyParser from "body-parser";
 import morgan from "morgan";
 import * as http from "http";
-import { TestsRoute } from "./routes/tests.route";
 import { StorageService } from "./services/storage.service";
+import { FilesRoute } from "./routes/files.route";
 import { OperationsRoute } from "./routes/operations.route";
 import { StorageDao } from "./data-sources/mongo/storage.dao";
 import { OperationsService } from "./services/operations.service";
@@ -20,6 +20,8 @@ export class Server {
   }
 
   private setupApp(): void {
+    const storageService = new StorageService(new StorageDao());
+
     this.app = express()
       .use(bodyParser.json())
       //.use(morgan("dev"))
@@ -40,12 +42,12 @@ export class Server {
       .get("/", (req: Request, res: Response) => {
         res.send("<h1>Hello, world!</h1>");
       })
-      .use("/tests", TestsRoute())
+      .use("/files", FilesRoute(storageService))
       .use(
         "/operations",
         OperationsRoute(
           new OperationsService(new OperationsDao(), new QueueDao()),
-          new StorageService(new StorageDao())
+          storageService
         )
       );
   }

@@ -1,3 +1,4 @@
+import { OperationTask } from "../../models/operation-task.model";
 import { Operation } from "../../models/operation.model";
 import { OperationsRepository } from "../../repositories/operations.repository";
 import { PostgresConnectionManager } from "./postgres-connection-manager";
@@ -16,7 +17,7 @@ export class OperationsDao implements OperationsRepository {
 
     pg.release();
 
-    return this.formatModel(queryResult.rows[0]);
+    return this.formatOperation(queryResult.rows[0]);
   }
 
   async getDoneOperations(limit: number): Promise<Operation[]> {
@@ -36,10 +37,22 @@ export class OperationsDao implements OperationsRepository {
     pg.release();
 
     if (0 < queryResult.rowCount) {
-      return this.formatModel(queryResult.rows[0]);
+      return this.formatOperation(queryResult.rows[0]);
     }
 
     return undefined;
+  }
+
+  async getOperationTasks(operationId: string): Promise<OperationTask[]> {
+    const pg = await PostgresConnectionManager.getPool().connect();
+    const queryResult = await pg.query(
+      "SELECT * FROM public.operation_task WHERE operation = $1;",
+      [operationId]
+    );
+
+    pg.release();
+
+    return queryResult.rows.map(this.formatOperationTask);
   }
 
   async getPendingOperations(limit: number): Promise<Operation[]> {
@@ -65,10 +78,10 @@ export class OperationsDao implements OperationsRepository {
 
     pg.release();
 
-    return queryResult.rows.map(this.formatModel);
+    return queryResult.rows.map(this.formatOperation);
   }
 
-  private formatModel(row: any): Operation {
+  private formatOperation(row: any): Operation {
     return {
       id: row.id,
       description: row.description,
@@ -77,5 +90,18 @@ export class OperationsDao implements OperationsRepository {
       isDone: row.is_done,
       items: row.items,
     } as Operation;
+  }
+
+  private formatOperationTask(row: any): OperationTask {
+    return {
+      id: row.id,
+      operation: row.operation,
+      fileId: row.file_id,
+      filter: row.filter,
+      assignedWorker: row.assigned_worker,
+      assignedAt: row.assigned_at,
+      finishedAt: row.finished_at,
+      outputFile: row.output_file,
+    } as OperationTask;
   }
 }
