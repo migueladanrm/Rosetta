@@ -18,7 +18,7 @@ export function OperationsRoute(
     })
     .post(
       "/create",
-      storage.getUploader().array("images", 10),
+      storage.getUploader().array("images", 25),
       async (req: Request, res: Response) => {
         const files = req.files;
         const settings = JSON.parse(req.body.settings);
